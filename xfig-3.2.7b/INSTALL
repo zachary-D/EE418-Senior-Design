@@ -1,0 +1,41 @@
+Type
+
+	./configure; make; make install
+
+to build xfig and install it below /usr/local. Optionally, run
+`make check' after make and `make installcheck', after installation.
+
+Important options to configure are
+	--prefix=<path>		root of installation tree, default /usr/local
+	--without-xpm-icon	disable the xpm splash icon
+	--with-appdefaultdir=<path>	directory to install the X resources
+				file to, default $prefix/share/X11/app-defaults/
+	--with-icondir=<path>	directory to install the xfig icon to,
+				default $prefix/share/pixmaps/
+	--with-applicationsdir=<path>	directory for the xfig.desktop file,
+				default $prefix/share/applications/
+	--without-xfig-libraries	do not install xfig libraries files,
+				currently 2531 fig files, 16 MB.
+Type ./configure --help for all options.
+When running ./configure, the values of various flags are printed at the
+very end of its output.
+
+On Mac Darwin, OS X 10.11.1 (El Capitan), using XQuartz and having installed
+jpeg, libpng and zlib via Macports, the following command should work:
+	./configure LDFLAGS=-L/opt/local/lib CPPFLAGS=-I/opt/local/include \
+		--with-appdefaultdir=/opt/X11/share/X11/app-defaults
+	make -j; make install-strip
+The option -j does a parallel build. The target install-strip strips debugging
+symbols from the executable.
+To install xfig under /usr/share on debian, try
+	./configure --prefix=/usr --with-appdefaultdir=/etc/X11/app-defaults
+	make -j; make install
+
+On old systems, it may be necessary to define ANCIENT from the make command,
+	./configure; make -DANCIENT; make install
+The preprocessor macro ANCIENT can not be defined by ./configure,
+but must be set when invoking make.
+
+Please report bug fixes or suggestions for improvement
+to thomas.loimer@tuwien.ac.at. I am also very interested to learn about
+conditions where it is necessary to compile with make -DANCIENT.
