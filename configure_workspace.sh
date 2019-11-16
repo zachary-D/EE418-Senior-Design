@@ -90,11 +90,9 @@ fi
 git config user.email "$1@no.email"
 git config user.name "$1"
 
-#Build fig2dev and xfig
-configureBuild fig2dev
-#building xfig requires fig2dev
-export PATH="$PATH:$buildDirectory/fig2dev/"
-configureBuild xfig
+#building xfig requires fig2dev, so add the location where it will be to the PATH
+export PATH="$PATH:$(pwd)/fig2dev*/fig2dev/"
+make
 cd ~
 
 
