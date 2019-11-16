@@ -1,0 +1,25 @@
+.swp
+
+#fig2dev build stuff
+fig2dev-3.2.7b/Makefile
+fig2dev-3.2.7b/config.h
+fig2dev-3.2.7b/config.log
+fig2dev-3.2.7b/config.status
+fig2dev-3.2.7b/man/Makefile
+fig2dev-3.2.7b/man/fig2dev.1
+fig2dev-3.2.7b/stamp-h1
+fig2dev-3.2.7b/transfig/.deps/
+fig2dev-3.2.7b/transfig/Makefile
+
+#xfig build stuff
+xfig-3.2.7b/Makefile
+xfig-3.2.7b/config.h
+xfig-3.2.7b/config.log
+xfig-3.2.7b/config.status
+xfig-3.2.7b/doc/
+xfig-3.2.7b/lib/.deps/
+xfig-3.2.7b/src/.deps/
+xfig-3.2.7b/src/Makefile
+xfig-3.2.7b/src/version.fig
+xfig-3.2.7b/stamp-h1
+xfig-3.2.7b/tests/
