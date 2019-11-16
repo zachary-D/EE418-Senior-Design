@@ -1,4 +1,4 @@
-all: fig2dev fig2dev_path xfig
+all: fig2dev xfig
 
 fig2dev: fig2dev*/Makefile
 	$(MAKE) -C fig2dev*
