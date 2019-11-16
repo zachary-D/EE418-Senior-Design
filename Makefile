@@ -6,7 +6,7 @@ fig2dev: fig2dev*/Makefile
 fig2dev*/Makefile:
 	cd fig2dev* && ./configure
 
-xfig: xfig*/Makefile:
+xfig: xfig*/Makefile
 	$(MAKE) -C xfig*
 
 xfig*/Makefile:
