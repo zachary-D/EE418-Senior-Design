@@ -38,3 +38,6 @@ xfig*/src/version.fig
 xfig*/stamp-h1
 xfig*/tests/
 xfig*/src/xfig
+
+#This one file that changes EVERY SINGLE TIME for some reason
+xfig*/src/splash.xbm
