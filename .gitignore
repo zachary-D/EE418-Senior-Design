@@ -1,6 +1,12 @@
 *.swp
 *.o
 
+#Common build files, ignored WHEN IN THE ""ROOT"" DIRECTORY ONLY
+*/Makefile*
+*/aclocal.m4
+*/config.h.in
+*/configure*
+
 #fig2dev build stuff
 fig2dev*/Makefile
 fig2dev*/config.h
