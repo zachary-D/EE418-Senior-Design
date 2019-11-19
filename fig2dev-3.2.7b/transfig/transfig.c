@@ -82,7 +82,8 @@ char *lname[] = {
 		"tk",
 		"tpic",
 		"xbm",
-		"xpm"};
+		"xpm",
+		"vdx"};  /* new edit */
 
 /* enum input {apg, fig, pic, ps}; */
 char *iname[] = {

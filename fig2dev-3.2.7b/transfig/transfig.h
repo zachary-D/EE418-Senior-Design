@@ -47,8 +47,8 @@
 enum language  {box, cgm, eepic, eepicemu, emf, epic, eps, gbx, gif,
 	ibmgl, dxf, jpeg, latex, map, mf, mmp, mp, pcx, pdf, pdftex,
 	pic, pict2e, pictex, png, ppm, ps, psfig, pstex, ptk, sld, svg,
-	textyl, tiff, tikz, tk, tpic, xbm, xpm};
-#define MAXLANG xpm
+	textyl, tiff, tikz, tk, tpic, xbm, xpm, vdx};
+#define MAXLANG vdx /* new edit */     /* old code: xpm */
 
 enum input {i_apg, i_fig, i_pic, i_ps, i_eps, i_pdf};
 #define MAXINPUT xps
