@@ -1,3 +1,5 @@
+.PHONY: clean
+
 all: fig2dev xfig
 
 fig2dev: fig2dev*/Makefile
@@ -17,3 +19,7 @@ xfig*/Makefile: xfig*/configure
 
 xfig*/configure:
 	cd xfig* && cp build/* ./
+
+clean:
+	$(MAKE) clean -C fig2dev*
+	$(MAKE) clean -C xfig*
