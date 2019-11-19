@@ -24,6 +24,7 @@ fig2dev*/fig2dev/fig2dev
 fig2dev*/fig2dev/i18n/
 fig2dev*/fig2dev/tests/
 fig2dev*/fig2dev/lib/
+fig2dev*/transfig/transfig
 
 #xfig build stuff
 xfig*/Makefile
