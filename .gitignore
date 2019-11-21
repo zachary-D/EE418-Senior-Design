@@ -10,15 +10,12 @@ config.h.in
 config.log
 configure
 configure.ac
+atconfig
+atlocal
 aclocal.m4
 stamp-h1
 autom4te.cache
 
-#Common build files, ignored WHEN IN THE ""ROOT"" DIRECTORY ONLY
-*/Makefile*
-*/aclocal.m4
-*/config.h.in
-*/configure*
 
 #fig2dev build stuff
 fig2dev*/man/fig2dev.1
