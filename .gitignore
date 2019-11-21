@@ -1,7 +1,15 @@
 *.swp
 *.o
 
+Makefile
+Makefile.am
 Makefile.in
+config.h
+config.h.in
+configure
+configure.ac
+aclocal.m4
+stamp-h1
 autom4te.cache
 
 #Common build files, ignored WHEN IN THE ""ROOT"" DIRECTORY ONLY
@@ -54,3 +62,6 @@ xfig*/tests/atlocal
 
 #This one file that changes EVERY SINGLE TIME for some reason
 xfig*/src/splash.xbm
+
+#re-include the build directories, which contained makefiles n stuff that were ignored
+!*/build/**
