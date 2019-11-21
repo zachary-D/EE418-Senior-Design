@@ -15,15 +15,15 @@ fig2dev*/config.status
 fig2dev*/man/Makefile
 fig2dev*/man/fig2dev.1
 fig2dev*/stamp-h1
-fig2dev*/transfig/.deps/
+fig2dev*/transfig/
 fig2dev*/transfig/Makefile
-fig2dev*/fig2dev/.deps
+fig2dev*/fig2dev/
 fig2dev*/fig2dev/Makefile
-fig2dev*/fig2dev/dev/*
 fig2dev*/fig2dev/fig2dev
 fig2dev*/fig2dev/i18n/
 fig2dev*/fig2dev/tests/
 fig2dev*/fig2dev/lib/
+fig2dev*/fig2dev/dev/Makefile
 fig2dev*/transfig/transfig
 
 #xfig build stuff
