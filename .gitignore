@@ -8,6 +8,7 @@ Makefile.in
 config.h
 config.h.in
 config.log
+config.status
 configure
 configure.ac
 atconfig
@@ -21,6 +22,7 @@ autom4te.cache
 fig2dev*/man/fig2dev.1
 fig2dev*/fig2dev/fig2dev
 fig2dev*/fig2dev/dev/libdrivers.a
+fig2dev*/transfig/transfig
 
 #xfig build stuff
 xfig*/src/version.fig
