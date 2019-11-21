@@ -17,6 +17,18 @@ fig2dev*/man/fig2dev.1
 fig2dev*/fig2dev/Makefile
 fig2dev*/fig2dev/dev/Makefile
 fig2dev*/fig2dev/fig2dev
+fig2dev*/fig2dev/.deps/
+fig2dev*/fig2dev/dev/.deps/
+fig2dev*/fig2dev/dev/libdrivers.a
+fig2dev*/fig2dev/i18n/Makefile
+fig2dev*/fig2dev/lib/.deps/
+fig2dev*/fig2dev/tests/.deps/
+fig2dev-3.2.7b/fig2dev/tests/Makefile
+fig2dev-3.2.7b/fig2dev/tests/atconfig
+fig2dev-3.2.7b/fig2dev/tests/atlocal
+fig2dev-3.2.7b/stamp-h1
+fig2dev-3.2.7b/transfig/.deps/
+fig2dev-3.2.7b/transfig/Makefile
 
 #xfig build stuff
 xfig*/Makefile
@@ -27,6 +39,15 @@ xfig*/src/Makefile
 xfig*/src/version.fig
 xfig*/stamp-h1
 xfig*/src/xfig
+xfig-3.2.7b/doc/Makefile
+xfig-3.2.7b/doc/xfig.man
+xfig-3.2.7b/doc/xfig_man.html
+xfig-3.2.7b/lib/.deps/
+xfig-3.2.7b/src/.deps/
+xfig-3.2.7b/tests/.deps/
+xfig-3.2.7b/tests/Makefile
+xfig-3.2.7b/tests/atconfig
+xfig-3.2.7b/tests/atlocal
 
 #This one file that changes EVERY SINGLE TIME for some reason
 xfig*/src/splash.xbm
