@@ -1,4 +1,5 @@
 .PHONY: clean
+.PHONY: copyBuildChain
 
 all: fig2dev xfig
 
@@ -23,3 +24,7 @@ xfig*/configure:
 clean:
 	$(MAKE) clean -C fig2dev*
 	$(MAKE) clean -C xfig*
+
+copyBuildChain:
+	$(MAKE) fig2dev*/configure
+	$(MAKE) xfig*/configure
