@@ -1,0 +1,30 @@
+# fig2dev/tests/atlocal.  Generated from atlocal.in by configure.
+
+# Fig2dev: Translate Fig code to various Devices
+# Copyright (c) 1991 by Micah Beck
+# Parts Copyright (c) 1985-1988 by Supoj Sutanthavibul
+# Parts Copyright (c) 1989-2015 by Brian V. Smith
+# Parts Copyright (c) 2015-2017 by Thomas Loimer
+#
+# Any party obtaining a copy of these files is granted, free of charge, a
+# full and unrestricted irrevocable, world-wide, paid up, royalty-free,
+# nonexclusive right and license to deal in this software and documentation
+# files (the "Software"), including without limitation the rights to use,
+# copy, modify, merge, publish, distribute, sublicense and/or sell copies
+# of the Software, and to permit persons who receive copies from any such
+# party to do so, with the only requirement being that the above copyright
+# and this permission notice remain intact.
+
+# atlocal.in
+# Author: Thomas Loimer, 2017, 2018
+
+if test x"/home/damatozw/workspace/fig2dev-3.2.7b" == x"/home/damatozw/workspace/fig2dev-3.2.7b"; then
+  PATH=/home/damatozw/workspace/fig2dev-3.2.7b/fig2dev:$PATH
+else
+  PATH=/home/damatozw/workspace/fig2dev-3.2.7b/fig2dev:/home/damatozw/workspace/fig2dev-3.2.7b/fig2dev:$PATH
+fi
+FGREP='/bin/grep -F'
+SED='/bin/sed'
+GSEXE='gs'
+WITH_PNG_TRUE=''
+WITH_XPM_TRUE=''

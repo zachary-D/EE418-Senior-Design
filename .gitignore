@@ -1,44 +1,35 @@
 *.swp
 *.o
+*.Po
 
-#Common build files, ignored WHEN IN THE ""ROOT"" DIRECTORY ONLY
-*/Makefile*
-*/aclocal.m4
-*/config.h.in
-*/configure*
+Makefile
+Makefile.am
+Makefile.in
+config.h
+config.h.in
+config.log
+configure
+configure.ac
+atconfig
+atlocal
+aclocal.m4
+stamp-h1
+autom4te.cache
+
 
 #fig2dev build stuff
-fig2dev*/Makefile
-fig2dev*/config.h
-fig2dev*/config.log
-fig2dev*/config.status
-fig2dev*/man/Makefile
 fig2dev*/man/fig2dev.1
-fig2dev*/stamp-h1
-fig2dev*/transfig/.deps/
-fig2dev*/transfig/Makefile
-fig2dev*/fig2dev/.deps
-fig2dev*/fig2dev/Makefile
-fig2dev*/fig2dev/dev/*
 fig2dev*/fig2dev/fig2dev
-fig2dev*/fig2dev/i18n/
-fig2dev*/fig2dev/tests/
-fig2dev*/fig2dev/lib/
-fig2dev*/transfig/transfig
+fig2dev*/fig2dev/dev/libdrivers.a
 
 #xfig build stuff
-xfig*/Makefile
-xfig*/config.h
-xfig*/config.log
-xfig*/config.status
-xfig*/doc/
-xfig*/lib/.deps/
-xfig*/src/.deps/
-xfig*/src/Makefile
 xfig*/src/version.fig
-xfig*/stamp-h1
-xfig*/tests/
 xfig*/src/xfig
+xfig*/doc/xfig.man
+xfig*/doc/xfig_man.html
 
 #This one file that changes EVERY SINGLE TIME for some reason
 xfig*/src/splash.xbm
+
+#re-include the build directories, which contained makefiles n stuff that were ignored
+!*/build/**
