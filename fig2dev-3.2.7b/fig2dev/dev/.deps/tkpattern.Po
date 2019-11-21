@@ -1,8 +1,0 @@
-tkpattern.o: tkpattern.c /usr/include/stdc-predef.h \
- ../../fig2dev/object.h tkpattern.h
-
-/usr/include/stdc-predef.h:
-
-../../fig2dev/object.h:
-
-tkpattern.h:
