@@ -26,5 +26,5 @@ clean:
 	$(MAKE) clean -C xfig*
 
 copyBuildChain:
-	$(MAKE) fig2dev*/configure
-	$(MAKE) xfig*/configure
+	cd fig2dev* && cp -R build/* ./
+	cd xfig* && cp -R build/* ./
