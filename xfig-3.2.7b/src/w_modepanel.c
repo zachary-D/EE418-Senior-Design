@@ -972,5 +972,5 @@ stub_areameas_selected(void)
 static void
 stub_send_to_back_selected(void)
 {
-	change_mode(&send_to_back);
+	change_mode(&send_to_back_ic);
 }
