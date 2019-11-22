@@ -2,20 +2,18 @@
 *.o
 *.Po
 
+*.in
+
 Makefile
-Makefile.am
-Makefile.in
 config.h
-config.h.in
 config.log
 config.status
 configure
-configure.ac
 atconfig
 atlocal
-aclocal.m4
-stamp-h1
+aclocal.m4stamp-h1
 autom4te.cache
+
 
 
 #fig2dev build stuff
@@ -35,3 +33,4 @@ xfig*/src/splash.xbm
 
 #re-include the build directories, which contained makefiles n stuff that were ignored
 !*/build/**
+!fig2dev*/fig2dev/dev/Makefile*

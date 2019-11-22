@@ -52,7 +52,7 @@ libdrivers_a_SOURCES = asc85ec.c genbitmaps.c genbox.c gencgm.c gendxf.c \
     picpsfonts.h psencode.h psencode.c psfonts.h psfonts.c psimage.h \
     psprolog.h readeps.c readgif.c readjpg.c readpcx.c readpics.h readpics.c \
     readppm.c readtif.c readxbm.c texfonts.h texfonts.c setfigfont.h \
-    setfigfont.c tkpattern.h tkpattern.c xtmpfile.h xtmpfile.c
+    setfigfont.c tkpattern.h tkpattern.c xtmpfile.h xtmpfile.c genvdx.c
 
 # These contain PACKAGE_VERSION, hence depend on $(CONFIG_HEADER) = config.h.
 genps.o gensvg.o genemf.o gengbx.o genmp.o genpictex.o gentk.o: $(CONFIG_HEADER)
