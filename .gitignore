@@ -2,10 +2,12 @@
 *.o
 *.Po
 
-*.in
-
+#build scripts
+Makefile.in
+aclocal.m4
 Makefile
 config.h
+config.h.in
 config.log
 config.status
 configure
@@ -27,10 +29,5 @@ xfig*/src/version.fig
 xfig*/src/xfig
 xfig*/doc/xfig.man
 xfig*/doc/xfig_man.html
-
-#This one file that changes EVERY SINGLE TIME for some reason
 xfig*/src/splash.xbm
-
-#re-include the build directories, which contained makefiles n stuff that were ignored
-!*/build/**
-!fig2dev*/fig2dev/dev/Makefile*
+xfig*/doc/html/images/xfig-title.png
