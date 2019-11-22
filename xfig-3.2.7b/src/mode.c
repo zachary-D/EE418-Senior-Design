@@ -152,7 +152,7 @@ char	*lang_texts[] = {
 	"GBX (Gerber, RS-247-X)           ",
 	"HPGL/2 or IBM-GL                 ",
 	"HTML Image Map                   ",
-	"Textyl \\special commands         ",
+	"Textyl \\special commands        ",
 	"TPIC                             ",
 	"PIC                              ",
 	"MF  (MetaFont)                   ",
@@ -161,7 +161,7 @@ char	*lang_texts[] = {
 	"PTk (Perl/Tk toolkit)            ",
 	"SHAPE (ShapePar definition )     ",
 	"SVG (Scalable Vector Graphics)   ",
-	"VDX (Virtual Document eXchange)  ", /* new edit */
+	"VDX (Visio Drawing XML)          ", /* new edit */
 
 	/*** bitmap formats follow ***/
 	/* if you move GIF, change FIRST_BITMAP_LANG in mode.h */

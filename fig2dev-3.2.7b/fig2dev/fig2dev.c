@@ -532,7 +532,8 @@ help_msg(void)
 			!strcmp(lang, "pstricks") || !strcmp(lang, "ptk") ||
 			!strcmp(lang, "shape") || !strcmp(lang, "svg") ||
 			!strcmp(lang, "textyl") || !strcmp(lang, "tikz") ||
-			!strcmp(lang, "tk") || !strcmp(lang, "tpic")) {
+			!strcmp(lang, "tk") || !strcmp(lang, "tpic") ||
+			!strcmp(lang, "vdx")) {     /* new edit */
 		puts(
 "\n--------------------------------------------------------------------------------\n"
 "Vector formats:");
