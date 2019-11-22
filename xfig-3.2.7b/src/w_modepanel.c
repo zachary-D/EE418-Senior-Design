@@ -711,6 +711,8 @@ void turn_off_current(void)
     }
 }
 
+
+
 void change_mode(icon_struct *icon)
 {
     int i;
@@ -966,5 +968,9 @@ stub_areameas_selected(void)
 	change_mode(&areameas_ic);
 }
 
-
-
+//Done By Cole//
+static void
+stub_send_to_back_selected(void)
+{
+	change_mode(&send_to_back);
+}
