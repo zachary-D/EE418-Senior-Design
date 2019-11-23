@@ -13,10 +13,12 @@
 
 #include "fig2dev.h"	/* includes "bool.h" */
 #include "object.h"	/* does #include <X11/xpm.h> */
-#include "gensvg.c"
+#include "bound.h"
+#include "creationdate.h"
+#include "gensvg.h"
 
 
-
+#define PREAMBLE "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
 
 void
 genvdx_option(char opt, char *optarg)
@@ -84,7 +86,7 @@ genvdx_start(F_compound *objects)
 	vw, vh, llx, lly, urx - llx , ury - lly); */
 
     if (objects->comments)
-	print_svgcomments("<desc>", objects->comments, "</desc>\n");
+	print_vdxcomments("<desc>", objects->comments, "</desc>\n");
     fputs("<g fill=\"none\">\n", tfp);
 
 }
@@ -99,7 +101,7 @@ genvdx_end(void)
 
 
 void
-print_svgcomments(char *s1, F_comment *comments, char *s2)
+print_vdxcomments(char *s1, F_comment *comments, char *s2)
 {
 	unsigned char	*c;
 	while (comments) {
