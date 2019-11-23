@@ -100,9 +100,9 @@ struct {
 	{"tikz",	&dev_tikz},
 	{"tk",		&dev_tk},
 	{"tpic",	&dev_tpic},
+	{"vdx",     &dev_vdx},   /* new edit */
 	{"xbm",		&dev_bitmaps},
 	{"xpm",		&dev_bitmaps},
-	{"vdx",     &dev_vdx},   /* new edit */
 	{"",		NULL}
 };
 
