@@ -276,7 +276,7 @@ mode_sw_info mode_switches[] = {
        "Measure AREA of polygons, arcs and ellipses   (Ctrl-m)", False},
 //Done By Cole//
     {&send_to_back_ic, F_SEND_TO_BACK, send_to_back_selected, M_OBJECT,
-       I_MIN2, //@TODO figure out what goes where I_MIN2//
+       I_NONE, // this is apparently where the indicator buttons go, which are the bottem row of xfig, ended up deciding we didn't need any//
        "Send the selected object to the back", False},
 
 
