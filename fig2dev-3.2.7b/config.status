@@ -438,7 +438,7 @@ Copyright (C) 2012 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/damatozw/workspace/fig2dev-3.2.7b'
+ac_pwd='/home/ee418team2/vorkspace_george/fig2dev-3.2.7b'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='/bin/mkdir -p'
@@ -652,7 +652,7 @@ cat >>"$ac_tmp/subs1.awk" <<\_ACAWK &&
 S["am__EXEEXT_FALSE"]=""
 S["am__EXEEXT_TRUE"]="#"
 S["LTLIBOBJS"]=""
-S["AUTOM4TE"]="${SHELL} /home/damatozw/workspace/fig2dev-3.2.7b/missing autom4te"
+S["AUTOM4TE"]="${SHELL} /home/ee418team2/vorkspace_george/fig2dev-3.2.7b/missing autom4te"
 S["LIBOBJS"]=""
 S["XLIBS"]="-lXpm"
 S["XLDFLAGS"]=""
@@ -713,12 +713,12 @@ S["mkdir_p"]="$(MKDIR_P)"
 S["MKDIR_P"]="/bin/mkdir -p"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]=""
-S["install_sh"]="${SHELL} /home/damatozw/workspace/fig2dev-3.2.7b/install-sh"
-S["MAKEINFO"]="${SHELL} /home/damatozw/workspace/fig2dev-3.2.7b/missing makeinfo"
-S["AUTOHEADER"]="${SHELL} /home/damatozw/workspace/fig2dev-3.2.7b/missing autoheader"
-S["AUTOMAKE"]="${SHELL} /home/damatozw/workspace/fig2dev-3.2.7b/missing automake-1.16"
-S["AUTOCONF"]="${SHELL} /home/damatozw/workspace/fig2dev-3.2.7b/missing autoconf"
-S["ACLOCAL"]="${SHELL} /home/damatozw/workspace/fig2dev-3.2.7b/missing aclocal-1.16"
+S["install_sh"]="${SHELL} /home/ee418team2/vorkspace_george/fig2dev-3.2.7b/install-sh"
+S["MAKEINFO"]="${SHELL} /home/ee418team2/vorkspace_george/fig2dev-3.2.7b/missing makeinfo"
+S["AUTOHEADER"]="${SHELL} /home/ee418team2/vorkspace_george/fig2dev-3.2.7b/missing autoheader"
+S["AUTOMAKE"]="${SHELL} /home/ee418team2/vorkspace_george/fig2dev-3.2.7b/missing automake-1.16"
+S["AUTOCONF"]="${SHELL} /home/ee418team2/vorkspace_george/fig2dev-3.2.7b/missing autoconf"
+S["ACLOCAL"]="${SHELL} /home/ee418team2/vorkspace_george/fig2dev-3.2.7b/missing aclocal-1.16"
 S["VERSION"]="3.2.7b"
 S["PACKAGE"]="fig2dev"
 S["CYGPATH_W"]="echo"

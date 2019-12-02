@@ -65,7 +65,7 @@
 #include "w_util.h"
 #include "d_spline.h"
 //Done By Cole//
-#include "e_send_to_back.c"
+#include "e_send_to_back.h"
 
 /* EXPORTS */
 
