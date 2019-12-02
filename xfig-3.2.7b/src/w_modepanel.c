@@ -65,7 +65,7 @@
 #include "w_util.h"
 #include "d_spline.h"
 //Done By Cole//
-#include "e_send_to_back.c"
+#include "e_send_to_back.h"
 
 /* EXPORTS */
 
@@ -276,7 +276,7 @@ mode_sw_info mode_switches[] = {
        "Measure AREA of polygons, arcs and ellipses   (Ctrl-m)", False},
 //Done By Cole//
     {&send_to_back_ic, F_SEND_TO_BACK, send_to_back_selected, M_OBJECT,
-       I_MIN2, //@TODO 
+       I_NONE, //@TODO 
        "Send the selected object to the back", False},
 
 
@@ -984,5 +984,5 @@ stub_areameas_selected(void)
 static void
 stub_send_to_back_selected(void)
 {
-	change_mode(&send_to_back);
+	change_mode(&send_to_back_ic);
 }
