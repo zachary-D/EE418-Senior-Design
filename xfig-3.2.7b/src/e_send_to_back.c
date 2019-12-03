@@ -23,20 +23,26 @@
 #include "w_util.h"
 
 
+//desired_depth = max_depth()->depth+1;
+
 void send_to_back_selected(void)
 {
     //FROM e_movept.c (same pointer)
-    set_mousefun("move point", "horiz/vert move", "", LOC_OBJ, LOC_OBJ, LOC_OBJ);
+	//this particular line is for that top right icon with the mouse buttons
+    set_mousefun("Send to Back Select", " ", " ", LOC_OBJ, LOC_OBJ, LOC_OBJ);
     canvas_kbd_proc = null_proc;
     canvas_locmove_proc = null_proc;
     canvas_ref_proc = null_proc;
     //init_searchproc_left(init_arb_move_point);
     //init_searchproc_middle(init_stretch_move_point);
-    canvas_leftbut_proc = point_search_left;
-    canvas_middlebut_proc = point_search_middle;
+    canvas_leftbut_proc = set_depth;//what the left mouse button will call
+    canvas_middlebut_proc = null_proc;//want the middle and right 
     canvas_rightbut_proc = null_proc;
-    set_cursor(pick9_cursor);
-    force_anglegeom();
+    set_cursor(pick9_cursor);//@TODO need to figure out wha this means
+    force_anglegeom();//@TODO don't think i need this
     reset_action_on();
     return;
 }
+
+
+void set_depth(selected_object, desired_depth)
