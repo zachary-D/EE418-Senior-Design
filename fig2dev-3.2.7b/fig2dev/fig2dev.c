@@ -157,11 +157,12 @@ static struct depth_opts {
 	int d1, d2;
 } depth_opt[NUMDEPTHS + 1];
 
+//Temp changes - changed the usage response so we can see which particular version of xfig is being run where
 static char	Usage[] =
 #ifdef I18N
-"Usage:\n %s -hV\n %s -L language [-s size] [-m scale] [-j] [input [output]]\n";
+"Usage:\n %s -hV\n %s -L language [-s size] [-m scale] [-j] [input [output]]\nYeet n skeet";
 #else
-    "Usage:\n %s -hV\n %s -L language [-s size] [-m scale] [input [output]]\n";
+    "Usage:\n %s -hV\n %s -L language [-s size] [-m scale] [input [output]]\nYeet n skeet";
 #endif
 
 static int	 parse_gridspec(char *string, float *numer, float *denom,
