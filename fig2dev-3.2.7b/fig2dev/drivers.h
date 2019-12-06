@@ -49,9 +49,9 @@ extern struct driver dev_ge;
 extern struct driver dev_bitmaps;
 extern struct driver dev_map;
 extern struct driver dev_svg;
+extern struct driver dev_vdx; /* new edit */
 extern struct driver dev_gbx;
 extern struct driver dev_shape;
-extern struct driver dev_vdx; /* new edit */
 
 extern struct driver dev_dxf;
 
@@ -100,7 +100,7 @@ struct {
 	{"tikz",	&dev_tikz},
 	{"tk",		&dev_tk},
 	{"tpic",	&dev_tpic},
-	{"vdx",     &dev_vdx},   /* new edit */
+	{"vdx",         &dev_vdx},   /* new edit */
 	{"xbm",		&dev_bitmaps},
 	{"xpm",		&dev_bitmaps},
 	{"",		NULL}

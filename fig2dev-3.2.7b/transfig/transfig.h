@@ -43,11 +43,11 @@
 
 /* Warning - if this list is changed the lname[] array in transfig.c must be changed too */
 /* Also, be sure to change MAXLANG if the list extends beyond the current lang */
-
+/* new edit */
 enum language  {box, cgm, eepic, eepicemu, emf, epic, eps, gbx, gif,
 	ibmgl, dxf, jpeg, latex, map, mf, mmp, mp, pcx, pdf, pdftex,
 	pic, pict2e, pictex, png, ppm, ps, psfig, pstex, ptk, sld, svg,
-	textyl, tiff, tikz, tk, tpic, vdx, xbm, xpm};
+	textyl, tiff, tikz, tk, tpic, vdx, xbm, xpm};  /* new edit */
 #define MAXLANG xpm
 
 enum input {i_apg, i_fig, i_pic, i_ps, i_eps, i_pdf};

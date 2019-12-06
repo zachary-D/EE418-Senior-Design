@@ -232,7 +232,7 @@
  *	28	"#ffa0a0"	"#ffa0a0"
  *	29	"#ffc0c0"	"#ffc0c0"
  *	30	"#ffe0e0"	"#ffe0e0"
- *	31	"gold"	        "#ffd700"	gold	(255, 215, 0)
+ *	31	"gold"	    "#ffd700"	gold	(255, 215, 0)
  *
  */
 
