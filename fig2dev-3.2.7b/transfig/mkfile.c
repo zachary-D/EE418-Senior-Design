@@ -78,6 +78,7 @@ makefile(FILE *mk, int altfonts)
 	  case textyl:
 	  case tiff:
 	  case tk:
+      case vdx: /* new edit */
 	  case xbm:
 	  case xpm:
 
