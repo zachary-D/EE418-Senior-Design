@@ -24,13 +24,11 @@
 
 static void send_back(F_line *obj, int type, int x, int y, F_point *p, F_point *q, int pnum);
 
-
 //desired_depth = max_depth()->depth+1;
 
 void send_to_back_selected(void)
 {
     //FROM e_movept.c (same pointer)
-<<<<<<< HEAD
 	//this particular line is for that top right icon with the mouse buttons
     set_mousefun("Send to Back Select", " ", " ", LOC_OBJ, LOC_OBJ, LOC_OBJ);
     canvas_kbd_proc = null_proc;
@@ -50,6 +48,7 @@ void send_to_back_selected(void)
 
 
 void set_depth(selected_object, desired_depth)
+{
 //@TODO need to actually create
 //needs to send the object value to this function so that the depth can be changed, also need to find the current max depth and
 //set the depth to that +1
@@ -60,8 +59,9 @@ void set_depth(selected_object, desired_depth)
 
 //found this in e_edit.c
 //(void) int_panel(generic_vals.depth, form, "Depth", lbeside, &depth_panel, MIN_DEPTH, MAX_DEPTH, 1);
-=======
-     set_mousefun("send back", "", "", LOC_OBJ, LOC_OBJ, LOC_OBJ);
+
+//Left over from a merge conflict, likely trash but uncertain
+/*     set_mousefun("send back", "", "", LOC_OBJ, LOC_OBJ, LOC_OBJ);
      canvas_kbd_proc = null_proc;
      canvas_locmove_proc = null_proc;
      canvas_ref_proc = null_proc;
@@ -80,6 +80,7 @@ void set_depth(selected_object, desired_depth)
      set_cursor(pick9_cursor);
      force_anglegeom();
      reset_action_on();
+*/
 }
 
 static void send_back(F_line *obj, int type, int x, int y, F_point *p, F_point *q, int pnum)
@@ -92,5 +93,3 @@ static void send_back(F_line *obj, int type, int x, int y, F_point *p, F_point *
     obj->depth = 998;
 	add_depth(type, obj->depth);
 }
->>>>>>> 85d4f0f362dc179d039d57c2f38d19a866159188
-
