@@ -1,241 +1,3 @@
-/*
- * Fig2dev: Translate Fig code to various Devices
- * Parts Copyright (c) 2002 by Anthony Starks
- * Parts Copyright (c) 2002-2006 by Martin Kroeker
- * Parts Copyright (c) 2002-2015 by Brian V. Smith
- * Parts Copyright (c) 2015-2019 by Thomas Loimer
- *
- * Any party obtaining a copy of these files is granted, free of charge, a
- * full and unrestricted irrevocable, world-wide, paid up, royalty-free,
- * nonexclusive right and license to deal in this software and documentation
- * files (the "Software"), including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense and/or sell copies
- * of the Software, and to permit persons who receive copies from any such
- * party to do so, with the only requirement being that the above copyright
- * and this permission notice remain intact.
- *
- */
-
-/*
- *
- * gensvg.c: convert fig to SVG
- *
- *  from fig2svg -- convert FIG 3.2 to SVG
- *
- *  Original author:  Anthony Starks (ajstarks@home.com)
- *  Created: 17 May 2000
- *  Converted to gensvg by Brian Smith
- *  Further modified by Martin Kroeker (martin@ruby.chemie.uni-freiburg.de)
- *  incorporating changes by Philipp Hahn and Justus Piater
- *  Modified by Thomas Loimer
- *
- *  Changes:
- *
- *  by Thomas Loimer <thomas.loimer@tuwien.ac.at>
- *
- *  2019-05-11
- *	- Output utf8-encoded text
- *	- Parse and replace characters <, > and & in comments by &lt; &gt; &amp;
- *
- *  2017-01-04
- *	- Fix pattern definitions. Use clip paths when painting objects with
- *	  arrows instead of retracting the line. Let the viewer do any
- *	  magnification. Use properties instead of attributes (e.g.,
- *	  stroke="red" instead of style="stroke:red;"). Implement pie-wedge
- *	  arcs. Add a todo list, see below.
- *
- * Changes before 2006
- *
- *  PH: Philipp Hahn
- *  JP: Justus Piater
- *  MK: Martin Kroeker
- *  BS: Brian Smith
- *  RE: Russell Edwards
- *
- *  MK 04-Dec-02: partial support for the symbol font, bigger fontscale, text alignment,
- *  dashed and dotted lines, bugfix for missing % in stroke-color statement of arcs
- *  FIXME: lacks support for arrowheads; fill patterns; percent grayscale fills
- *  MK 08-Dec-02: rotated text; shades and tints of fill colors; filled circles
- *  MK 11-Dec-02: scaling;proper font/slant/weight support; changed arc code
- *  12-Dec-02: fixes by Brian Smith: scale factor, orientation, ellipse fills
- *  MK 14-Dec-02: arc code rewrite, simplified line style handling,
- *  arrowheads on arcs and lines (FIXME: not clipped), stroke->color command
- *  is simply 'stroke'
- *  MK 15-Dec-02: catch pattern fill flags, convert to tinted fills for now
- *  MK 18-Dec-02: fill patterns; fixes by BS: arrowhead scale & position,
- *  circle by diameter
- *  PH 03-Feb-03: Fix CIRCLE_BY_DIA, color/fill styles, update SVG DTD
- *  MK 10-Feb-03: do not encode space characters when in symbol font;
- *		  always encode characters '&', '<' and '>'. Leave non-
- *		  alphabetic characters in the lower half of the symbol
- *		  font unchanged.
- *  MK 12-Feb-03: Added complete character conversion tables for the symbol
- *		  and dingbat fonts (based on the information in Unicode
- *		  Inc.'s symbol.txt and zdingbat.txt tables, version 0.2)
- *  MK 18-Feb-03: Added cap and join style fields for line and arc
- *  MK 24-Feb-03: Symbol and Dingbat fonts are no longer translated to
- *		  font-family="Times" with both bold and italic flags set.
- *  MK 17-Jun-03: Fix for rotation angle bug. Correct rendering of 'tinted'
- *		  colors using code from www.cs.rit.edu. Added forgotten
- *		  pattern fill option for ellipses (circles).
- *  JP 21-Jan-04: Calculate proper bounding box instead of current paper
- *		  dimensions. Added missing semicolons in some property
- *		  strings, and proper linebreak characters in multi-line
- *		  format strings.
- *  MK 23-Jan-04: Pattern-filled objects are now drawn twice - painting the
- *		  pattern over the fill color (if any). This solves the problem
- *		  of missing color support in pattern fills (as reported by JP)
- *		  Corrected filling of ellipses, which was still B/W only.
- *		  Fixed bad tiling of diagonal patterns 1 - 3 (the old formula
- *		  favoured exact angles over seamless tiling). Updated DTD.
- *  MK 25-Jan-04: Endpoints of polylines are now truncated when arrowheads
- *		  are drawn. Corrected rendering of type 0 (stick) arrowheads.
- *  MK 28-Jan-04: Fix for arc arrowhead orientation.
- *  MK 31-Jan-04: Corrected arc angle calculation (this time for good ?)
- *  MK 22-Feb-04: Picture support
- *  JP	1-Mar-04: Closed arrowheads should use polygons instead of polylines
- *  JP	3-Mar-04: Corrected font family selection
- *  JP 26-Mar-04: Corrected (and simplified) calculation of white-tinted
- *		  fill colors (and removed the HSV/RGB conversion code)
- *  MK 29-Mar-04: Added code for rounded boxes (polyline subtype 4)
- *  MK 30-Mar-04: Added code for boxes, explicit support for polygons
- *  MK 10-Apr-04: Added xml-space:preserve qualifier on texts to preserve
- *		  whitespace. Rewrote fill pattern handling to generate
- *		  patterns as needed - adding support for penwidth and color.
- *		  Corrected tiling of all shingle patterns and reversal
- *		  of horizontal shingles.
- *  RE	6-May-04: Changed degrees() to double for more precision
- *		  Added linewidth() to transform all line widths in the
- *		   same way as genps.c : thin lines get thinner
- *		  Changed circle radius to use F_ellipse::radiuses.x instead
- *		   of start and end (which seemed not to work correctly)
- *		   Query: Is this broken for byradius or bydiameter??
- *		  Added rotation to ellipses
- *		  Changed back to mapping Symbol to Times, greeks look a bit
- *		   better. Ultimately embedding PS fonts would be better.
- *		  Removed newlines inside <text> printf, otherwise they get
- *		   rendered as spaces due to xml:space="preserve"
- *		  Removed extraneous comma between two halves of format
- *		   string in gensvg_arc, fixes Seg fault.
- *  MK	3-Aug-04  Split the multi-line format string in gensvg_arc in two to
- *		  get rid of (compiler version-dependant) segfaults for good.
- *  MK 11-Sep-05: Added explicit stroke color to text to prevent black outline
- *		  on colored text.
- *		  Added support for latex-special formatted text, converting
- *		  sub- and superscripts to either baseline-shift=sub/super
- *		  (the intended way of doing this in SVG) or "dy" offsets
- *		  (less elegant, but more likely to be supported by browsers
- *		  and editors) depending on the NOSUPER define below.
- *		  Tested with Batik-1.6, konqueror-3.4, firefox-1.5b1,
- *		  inkscape-0.41
- *  MK 15-Sep-05: Use a font-family list of "Times,Symbol" for symbol
- *		  characters - the Times fontface does not contain all
- *		  elements of the Symbol font on all platforms.
- *  MK	4-Nov-05: Corrected length and appearance of stick-type arrows.
- *  MK	2-Jan-06: Added support for filled arcs.
- *  MK 26-Feb-06: Added support for dashed circles, ellipses and arcs.
- *		  Dash/gap lengths are now drawn according to style_val.
- *		  Fixed several glitches uncovered by splint.
- *  MK 22-Apr-06: Corrected blue component of shaded colors (was always
- *		  zero due to missing parentheses around typecast). Corrected
- *		  arrowheads of large arrows by adding an increased miterlimit.
- *		  Corrected position of backward arrowheads on polylines with
- *		  both forward and backward arrows.
- *  MK	2-Jul-06: Patterns do not inherit their line width from the parent object
- *		  (which may be zero if no visible boundary is desired), so always
- *		  use linewidth:1
- *  MK 22-Oct-06: Changed unicode variant of lowercase phi to match its X11 Symbol
- *		  counterpart.
- *  *********************************************************************************
- *
- *  An excerpt from http://www.w3.org/TR/2011/REC-SVG11-20110816/:
- *  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
- *  W3 recommendations for
- *  1.3 SVG Namespace, Public Identifier and System Identifier
- *
- *  The following are the SVG 1.1 namespace, public identifier and system identifier:
- *
- *  SVG Namespace:
- *	http://www.w3.org/2000/svg
- *	xmlns:xlink="http://www.w3.org/1999/xlink"
- *  Public Identifier for SVG 1.1:
- *	PUBLIC "-//W3C//DTD SVG 1.1//EN"
- *  System Identifier for the SVG 1.1 Recommendation:
- *	http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd
- *
- *  The following is an example document type declaration for an SVG document:
- *
- *  <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- *	     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
- *
- *  Note that DTD listed in the System Identifier is a modularized DTD (ie. its
- *  contents are spread over multiple files), which means that a validator may have
- *  to fetch the multiple modules in order to validate. For that reason, there is
- *  a single flattened DTD available that corresponds to the SVG 1.1 modularized DTD.
- *  It can be found at http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-flat.dtd.
- *
- *  While a DTD is provided in this specification, the use of DTDs for
- *  validating XML documents is known to be problematic.  In particular, DTDs
- *  do not handle namespaces gracefully.  It is not recommended that
- *  a DOCTYPE declaration be included in SVG documents.
- *  *********************************************************************************
- */
-
-/* TODO
- *	* identify pattern by number and color (int pattern[22], an
- *	  int has 32 bits, need 32 standard colors plus 512 user colors)
- *	* create nicer color commands ("white", "blue", etc. )
- *	  and "currentColor" for default
- *	* get put_precision from gentikz.c, prec 0 or 1
- *	  for, e.g., center of image, for rotation
- *	* ellipses: for dashed lines, put cap style "round"
- *	* need char *fig_color_names, or use int array?
- *	* image rotation - around center necessary?
- *	* check line stipples, compare with genps.c
- *	* see, if BLACK_FILL, WHITE_FILL can be replaced
- *	* use pdftocairo, where available?
- *      * defs until now: tile%d, p%d, cp%d
- *	* probably change to pattern%d, c%d (color)
- *
- *	* Correct color values;
- *	  hex codes see Fig_color_names in fig2dev.c, or, identical,
-	  colorNames in xfig/src/resources.c
- *		colorNames	Fig_color_names	svg name
- *	0	"black"		"#000000"	black
- *	1	"blue"		"#0000ff"	blue
- *	2	"green"		"#00ff00"	lime
- *	3	"cyan"		"#00ffff"	cyan
- *	4	"red"		"#ff0000"	red
- *	5	"magenta"	"#ff00ff"	magenta
- *	6	"yellow"	"#ffff00"	yellow
- *	7	"white"		"#ffffff"	white
- *	8	"#000090"	"#000090" 144
- *	9	"#0000b0"	"#0000b0" 176
- *	10	"#0000d0"	"#0000d0" 208
- *	11	"#87ceff"	"#87ceff" 135 206
- *	12	"#009000"	"#009000"
- *	13	"#00b000"	"#00b000"
- *	14	"#00d000"	"#00d000"
- *	15	"#009090"	"#009090"
- *	16	"#00b0b0"	"#00b0b0"
- *	17	"#00d0d0"	"#00d0d0"
- *	18	"#900000"	"#900000"
- *	19	"#b00000"	"#b00000"
- *	20	"#d00000"	"#d00000"
- *	21	"#900090"	"#900090"
- *	22	"#b000b0"	"#b000b0"
- *	23	"#d000d0"	"#d000d0"
- *	24	"#803000"	"#803000" 128 48
- *	25	"#a04000"	"#a04000" 160 64
- *	26	"#c06000"	"#c06000" 192 96
- *	27	"#ff8080"	"#ff8080"
- *	28	"#ffa0a0"	"#ffa0a0"
- *	29	"#ffc0c0"	"#ffc0c0"
- *	30	"#ffe0e0"	"#ffe0e0"
- *	31	"gold"	    "#ffd700"	gold	(255, 215, 0)
- *
- */
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -253,14 +15,18 @@
 #include "object.h"	/* does #include <X11/xpm.h> */
 #include "bound.h"
 #include "creationdate.h"
+#include "gensvg.h"
 
-static bool svg_arrows(int line_thickness, F_arrow *for_arrow, F_arrow *back_arrow,
+
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+static bool vdx_arrows(int line_thickness, F_arrow *for_arrow, F_arrow *back_arrow,
 	F_pos *forw1, F_pos *forw2, F_pos *back1, F_pos *back2, int pen_color);
 static void generate_tile(int number, int colorIndex);
-static void svg_dash(int, double);
+static void vdx_dash(int, double);
 
 #define PREAMBLE "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
-#define	SVG_LINEWIDTH	76
+#define	VDX_LINEWIDTH	76
 
 static unsigned int symbolchar[256]=
 {0,0,0,0,0,0,0,0,0,0,
@@ -417,7 +183,7 @@ linewidth_adj(int linewidth)
 		linewidth / 2. : (double)(linewidth-THICK_SCALE);
 }
 
-void
+/*void
 put_sanitized_char(int c)
 {
 	switch (c) {
@@ -433,10 +199,10 @@ put_sanitized_char(int c)
 	default:
 		fputc(c, tfp);
 	}
-}
+}*/
 
 void
-print_svgcomments(char *s1, F_comment *comments, char *s2)
+print_vdxcomments(char *s1, F_comment *comments, char *s2)
 {
 	unsigned char	*c;
 	while (comments) {
@@ -449,7 +215,7 @@ print_svgcomments(char *s1, F_comment *comments, char *s2)
 }
 
 void
-gensvg_option(char opt, char *optarg)
+genvdx_option(char opt, char *optarg)
 {
     switch (opt) {
 	case 'G':		/* ignore language and grid */
@@ -460,13 +226,13 @@ gensvg_option(char opt, char *optarg)
 	    paperspec = true;
 	    break;
 	default:
-	    put_msg (Err_badarg, opt, "svg");
+	    put_msg (Err_badarg, opt, "vdx");
 	    exit (1);
     }
 }
 
 void
-gensvg_start(F_compound *objects)
+genvdx_start(F_compound *objects)
 {
     const struct paperdef	*pd;
     int     pagewidth = -1, pageheight = -1;
@@ -506,69 +272,26 @@ gensvg_start(F_compound *objects)
 	vw = ceil((urx - llx) * 72. * mag / ppi);
 	vh = ceil((ury - lly) * 72. * mag / ppi);
     }
-    fputs("<svg\txmlns=\"http://www.w3.org/2000/svg\"\n", tfp);
+    /* fputs("<svg\txmlns=\"http://www.w3.org/2000/svg\"\n", tfp);
     fputs("\txmlns:xlink=\"http://www.w3.org/1999/xlink\"\n", tfp);
     fprintf(tfp,
 	"\twidth=\"%dpt\" height=\"%dpt\"\n\tviewBox=\"%d %d %d %d\">\n",
-	vw, vh, llx, lly, urx - llx , ury - lly);
+	vw, vh, llx, lly, urx - llx , ury - lly); */
+
 
     if (objects->comments)
-	print_svgcomments("<desc>", objects->comments, "</desc>\n");
+	print_vdxcomments("<desc>", objects->comments, "</desc>\n");
     fputs("<g fill=\"none\">\n", tfp);
 
 }
 
 int
-gensvg_end(void)
+genvdx_end(void)
 {
-    fprintf(tfp, "</g>\n</svg>\n");
+    fprintf(tfp, "</g>\n</vdx>\n");
     return 0;
 }
 
-/*
- *	paint objects without arrows
- *	****************************
- *
- *	PATTERN					FILL		UNFILLED
- * a|	<defs>
- *
- *	<path d="..				<path d="..	<path d="..
- *
- * b|	id="p%d"/>				fill="#fillcol"
- * b|	generate_tile(pen_color)
- * b|	</defs>
- * b|	<use xlink:href="#p%d" fill="#col"/>
- * b|	<use xlink:href="#p%d" fill="url(#tile%d)"
- *
- *	    -----------   ...continue with "stroke=..." etc.   -----------
- *	/>				/>				/>
- *
- *	a| INIT_PAINT,  b| continue_paint
- *
- *	paint objects with arrows
- *	*************************
- *
- *	has_clip = svg_arrows(..., INIT)
- *	if (UNFILLED && thickness == 0) {svg_arrows(..); return;}
- *
- *	PATTERN				FILL				UNFILLED
- * c|	<defs>				<defs>				<defs>
- * c|	    -----------------   svg_arrows(..., CLIP)    ---------------
- *									</defs>
- *	    -----------------   <path polyline points="...  ------------
- * d|	id="p%d"/>			id="p%d"/>
- * d|	generate_tile(pen_color)
- * d|	</defs>				</defs>
- * d|	<use ..#p%d fill="#col"/>	<use ..."#p%d" fill="#fillcol"/>
- * d|	<use ..#p%d fill="url(#tile%d)"/>
- * d|	<use ..#p%d			<use ..#p%d
- * d|	    -----------------   clip-path="#cp%d"   --------------------
- *	    -------------   ...continue with "stroke=..." etc.   -------
- *	/>				/>				/>
- *	    -----------------   svg_arrows(..., pen_color)   ------------
- *
- *	c| INIT_PAINT_W_CLIP,  d| continue_paint_w_clip
- */
 
 #define	INIT	-9	/* Change this, if pen_color may be negative. */
 #define	CLIP	-8
@@ -579,12 +302,12 @@ gensvg_end(void)
 #define	INIT_PAINT_W_CLIP(fill_style, thickness, for_arrow, back_arrow,	\
 			  forw1, forw2, back1, back2)			\
 	fputs("<defs>\n", tfp);					\
-	(void) svg_arrows(thickness, for_arrow, back_arrow,	\
+	(void) vdx_arrows(thickness, for_arrow, back_arrow,	\
 		forw1, forw2, back1, back2, CLIP);		\
 	if (fill_style == UNFILLED)				\
 		fputs("</defs>\n", tfp)
 
-void
+/*void
 continue_paint(int fill_style, int pen_color, int fill_color)
 {
     if (fill_style > NUMFILLS) {
@@ -596,11 +319,13 @@ continue_paint(int fill_style, int pen_color, int fill_color)
 	fprintf(tfp, "<use xlink:href=\"#p%d\" fill=\"url(#tile%d)\"",
 		pathno, tileno);
     } else if (fill_style > UNFILLED) {	/* && fill_style <= NUMFILLS */
+
+/*
 	fprintf(tfp, " fill=\"#%6.6x\"", rgbFillVal(fill_color, fill_style));
     }
-}
+}*/
 
-void
+/*void
 continue_paint_w_clip(int fill_style, int pen_color, int fill_color)
 {
     if (fill_style > UNFILLED) {
@@ -621,10 +346,10 @@ continue_paint_w_clip(int fill_style, int pen_color, int fill_color)
 	fprintf(tfp, "<use xlink:href=\"#p%d\"", pathno);
     }
     fprintf(tfp, " clip-path=\"url(#cp%d)\"", clipno);
-}
+}*/
 
 void
-gensvg_line(F_line *l)
+genvdx_line(F_line *l)
 {
     char	chars;
     int		px,py;
@@ -681,7 +406,7 @@ gensvg_line(F_line *l)
 
     /* l->type == T_BOX, T_ARC_BOX, T_POLYGON or T_POLYLINE */
     fprintf(tfp, "<!-- Line -->\n");
-    print_svgcomments("<!-- ", l->comments, " -->\n");
+    print_vdxcomments("<!-- ", l->comments, " -->\n");
 
     if (l->type == T_BOX || l->type == T_ARC_BOX || l->type == T_POLYGON) {
 
@@ -691,7 +416,7 @@ gensvg_line(F_line *l)
 	    chars = fputs("<polygon points=\"", tfp);
 	    for (p = l->points; p->next; p = p->next) {
 		chars += fprintf(tfp, " %d,%d", p->x , p->y);
-		if (chars > SVG_LINEWIDTH) {
+		if (chars > VDX_LINEWIDTH) {
 		    fputc('\n', tfp);
 		    chars = 0;
 		}
@@ -719,7 +444,7 @@ gensvg_line(F_line *l)
 
     continue_paint(l->fill_style, l->pen_color, l->fill_color);
 
-    /* http://jwatt.org/SVG Authoring Guidelines.html recommends to
+    /* http://jwatt.org/VDX Authoring Guidelines.html recommends to
        use px unit for stroke width */
     if (l->thickness) {
 	fprintf(tfp, "\n\tstroke=\"#%6.6x\" stroke-width=\"%dpx\"",
@@ -728,7 +453,7 @@ gensvg_line(F_line *l)
 	put_joinstyle(l->join_style);
 	put_capstyle(l->cap_style);
 	if (l->style > SOLID_LINE)
-	    svg_dash(l->style, l->style_val);
+	    vdx_dash(l->style, l->style_val);
     }
     fputs("/>\n", tfp);
 
@@ -739,11 +464,11 @@ gensvg_line(F_line *l)
 	bool	has_clip = false;
 
 	if (l->for_arrow || l->back_arrow) {
-	    has_clip = svg_arrows(l->thickness, l->for_arrow, l->back_arrow,
+	    has_clip = vdx_arrows(l->thickness, l->for_arrow, l->back_arrow,
 			    &(l->last[1]), l->last, (F_pos *)l->points->next,
 			    (F_pos *)l->points, INIT);
 	    if (l->fill_style == UNFILLED && l->thickness <= 0) {
-		(void) svg_arrows(l->thickness, l->for_arrow, l->back_arrow,
+		(void) vdx_arrows(l->thickness, l->for_arrow, l->back_arrow,
 			    &(l->last[1]), l->last, (F_pos *)l->points->next,
 			    (F_pos *)l->points, l->pen_color);
 		return;
@@ -761,7 +486,7 @@ gensvg_line(F_line *l)
 	chars = fputs("<polyline points=\"", tfp);
 	for (p = l->points; p; p = p->next) {
 	    chars += fprintf(tfp, " %d,%d", p->x , p->y);
-	    if (chars > SVG_LINEWIDTH) {
+	    if (chars > VDX_LINEWIDTH) {
 		fputc('\n', tfp);
 		chars = 0;
 	    }
@@ -780,24 +505,24 @@ gensvg_line(F_line *l)
 	    put_joinstyle(l->join_style);
 	    put_capstyle(l->cap_style);
 	    if (l->style > SOLID_LINE)
-		svg_dash(l->style, l->style_val);
+		vdx_dash(l->style, l->style_val);
 	}
 
 	fputs("/>\n", tfp);
 	if (l->for_arrow || l->back_arrow)
-	    (void) svg_arrows(l->thickness, l->for_arrow, l->back_arrow,
+	    (void) vdx_arrows(l->thickness, l->for_arrow, l->back_arrow,
 			&(l->last[1]), l->last, (F_pos *)l->points->next,
 			(F_pos *)l->points, l->pen_color);
     }	/* l->type == T_POLYLINE */
 }
 
 void
-gensvg_spline( /* not used by fig2dev */
+genvdx_spline( /* not used by fig2dev */
 	F_spline *s)
 {
     F_point *p;
     fprintf(tfp, "<!-- Spline -->\n");
-    print_svgcomments("<!-- ", s->comments, " -->\n");
+    print_vdxcomments("<!-- ", s->comments, " -->\n");
 
     fprintf(tfp, "<path style=\"stroke:#%6.6x;stroke-width:%d\" d=\"",
 	     rgbColorVal(s->pen_color), (int) ceil (linewidth_adj(s->thickness)));
@@ -809,7 +534,7 @@ gensvg_spline( /* not used by fig2dev */
 }
 
 void
-gensvg_arc(F_arc *a)
+genvdx_arc(F_arc *a)
 {
     bool    has_clip = false;
     double  radius;
@@ -821,7 +546,7 @@ gensvg_arc(F_arc *a)
 	return;
 
     fputs("<!-- Arc -->\n", tfp);
-    print_svgcomments("<!-- ", a->comments, " -->\n");
+    print_vdxcomments("<!-- ", a->comments, " -->\n");
 
     if (a->for_arrow || a->back_arrow) {
 	if (a->for_arrow) {
@@ -838,10 +563,10 @@ gensvg_arc(F_arc *a)
 		    (double) back2.x, (double) back2.y, a->direction ^ 1,
 		    a->back_arrow, &(back1.x), &(back1.y));
 	}
-	has_clip = svg_arrows(a->thickness, a->for_arrow, a->back_arrow,
+	has_clip = vdx_arrows(a->thickness, a->for_arrow, a->back_arrow,
 				&forw1, &forw2, &back1, &back2, INIT);
 	if (a->fill_style == UNFILLED && a->thickness <= 0) {
-	    (void) svg_arrows(a->thickness, a->for_arrow, a->back_arrow,
+	    (void) vdx_arrows(a->thickness, a->for_arrow, a->back_arrow,
 				&forw1, &forw2, &back1, &back2, a->pen_color);
 	    return;
 	}
@@ -898,17 +623,17 @@ gensvg_arc(F_arc *a)
 		(int) ceil(linewidth_adj(a->thickness)));
 	put_capstyle(a->cap_style);
 	if (a->style > SOLID_LINE)
-	    svg_dash(a->style, a->style_val);
+	    vdx_dash(a->style, a->style_val);
     }
 
     fputs("/>\n", tfp);
     if (a->for_arrow || a->back_arrow)
-	(void) svg_arrows(a->thickness, a->for_arrow, a->back_arrow,
+	(void) vdx_arrows(a->thickness, a->for_arrow, a->back_arrow,
 			&forw1, &forw2, &back1, &back2, a->pen_color);
 }
 
 void
-gensvg_ellipse(F_ellipse *e)
+genvdx_ellipse(F_ellipse *e)
 {
     int cx = e->center.x ;
     int cy = e->center.y ;
@@ -916,7 +641,7 @@ gensvg_ellipse(F_ellipse *e)
     if (e->type == T_CIRCLE_BY_RAD || e->type == T_CIRCLE_BY_DIA) {
 	int r = e->radiuses.x ;
 	fputs("<!-- Circle -->\n", tfp);
-	print_svgcomments("<!-- ", e->comments, " -->\n");
+	print_vdxcomments("<!-- ", e->comments, " -->\n");
 
 	INIT_PAINT(e->fill_style);
 
@@ -927,7 +652,7 @@ gensvg_ellipse(F_ellipse *e)
 	int rx = e->radiuses.x ;
 	int ry = e->radiuses.y ;
 	fputs("<!-- Ellipse -->\n", tfp);
-	print_svgcomments("<!-- ", e->comments, " -->\n");
+	print_vdxcomments("<!-- ", e->comments, " -->\n");
 
 	INIT_PAINT(e->fill_style);
 
@@ -948,13 +673,13 @@ gensvg_ellipse(F_ellipse *e)
 		rgbColorVal(e->pen_color),
 		(int) ceil(linewidth_adj(e->thickness)));
 	if (e->style > SOLID_LINE)
-	    svg_dash(e->style, e->style_val);
+	    vdx_dash(e->style, e->style_val);
     }
     fputs("/>\n", tfp);
 }
 
 void
-gensvg_text(F_text *t)
+genvdx_text(F_text *t)
 {
 	unsigned char *cp;
 	int ch;
@@ -970,7 +695,7 @@ gensvg_text(F_text *t)
 #endif
 
 	fprintf(tfp, "<!-- Text -->\n");
-	print_svgcomments("<!-- ", t->comments, " -->\n");
+	print_vdxcomments("<!-- ", t->comments, " -->\n");
 
 	if (t->angle != 0.) {
 		fprintf(tfp,
@@ -1083,7 +808,7 @@ arrow_path(F_arrow *arrow, F_pos *arrow2, int pen_color, int npoints,
     for (i = 0; i < npoints; ++i) {
 	chars += fprintf(tfp, " %d,%d", points[i].x ,
 		points[i].y );
-	if (chars > SVG_LINEWIDTH) {
+	if (chars > VDX_LINEWIDTH) {
 	    fputc('\n', tfp);
 	    chars = 0;
 	}
@@ -1121,7 +846,7 @@ arrow_path(F_arrow *arrow, F_pos *arrow2, int pen_color, int npoints,
 }
 
 static bool
-svg_arrows(int line_thickness, F_arrow *for_arrow, F_arrow *back_arrow,
+vdx_arrows(int line_thickness, F_arrow *for_arrow, F_arrow *back_arrow,
 	F_pos *forw1, F_pos *forw2, F_pos *back1, F_pos *back2, int pen_color)
 {
     static int		fnpoints, fnfillpoints, fnclippoints;
@@ -1283,7 +1008,7 @@ generate_tile(int number, int colorIndex)
 }
 
 static void
-svg_dash(int style, double val)
+vdx_dash(int style, double val)
 {
 	fprintf(tfp, " stroke-dasharray=\"");
 	switch(style) {
@@ -1310,17 +1035,19 @@ svg_dash(int style, double val)
 	}
 }
 
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 /* driver defs */
 
-struct driver dev_svg = {
-	gensvg_option,
-	gensvg_start,
+struct driver dev_vdx = {
+	genvdx_option,
+	genvdx_start,
 	gendev_nogrid,
-	gensvg_arc,
-	gensvg_ellipse,
-	gensvg_line,
-	gensvg_spline,
-	gensvg_text,
-	gensvg_end,
+	genvdx_arc,
+	genvdx_ellipse,
+	genvdx_line,
+	genvdx_spline,
+	genvdx_text,
+	genvdx_end,
 	INCLUDE_TEXT
 };

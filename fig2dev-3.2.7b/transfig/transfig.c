@@ -81,6 +81,7 @@ char *lname[] = {
 		"tikz",
 		"tk",
 		"tpic",
+		"vdx",   /* new edit */
 		"xbm",
 		"xpm"};
 

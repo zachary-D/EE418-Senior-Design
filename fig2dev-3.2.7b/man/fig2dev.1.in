@@ -67,7 +67,7 @@ driver), gif, ibmgl, jpeg, latex, map (HTML image map), mf (MetaFont),
 mp (MetaPost), pcx, pdf, pdftex, pdftex_t, pic,
 pict2e, pictex, png, ppm, ps, pstex, pstex_t, pstricks, ptk (Perl/tk),
 shape (LaTeX shaped paragraphs), sld (AutoCad slide format), svg,
-textyl, tiff, tikz, tk (tcl/tk), tpic, xbm and xpm\fR.
+textyl, tiff, tikz, tk (tcl/tk), tpic, vdx, xbm and xpm\fR.
 
 Notes:
 .br
@@ -1400,7 +1400,7 @@ Set the line thickness. \fIlwidth\fR must be a value between 1 and 12.
 
 .SH TIKZ OPTIONS
 TIKZ is a powerful frontend to the Portable Graphics Format (PGF)
-developed by Till Tantau, now at the University of Lübeck.
+developed by Till Tantau, now at the University of Lï¿½beck.
 TIKZ was developed to be as platform-independent as possible, i.e.,
 tikz-code can be processed with plain TeX, pdftex, xetex, LaTeX, ConTeX,
 pdflatex, lualatex, or combinations of LaTeX + dvips, LaTeX + dvipdfm or others.

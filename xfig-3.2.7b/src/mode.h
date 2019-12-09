@@ -231,6 +231,7 @@ enum {
 	LANG_PTK,
 	LANG_SHAPE,
 	LANG_SVG,
+	LANG_VDX, /* new edit */
 /* bitmap formats should follow here, starting with GIF */
 	LANG_GIF,
 	LANG_JPEG,

@@ -48,7 +48,7 @@ libdrivers_a_SOURCES = asc85ec.c genbitmaps.c genbox.c gencgm.c gendxf.c \
     genemf.h genemf.c genepic.c gengbx.c genge.c genibmgl.c genlatex.h \
     genlatex.c genmap.c genmf.c genmp.c genpdf.c genpic.c genpict2e.c \
     genpictex.c genps.h genps.c genpstex.c genpstricks.c genptk.c genshape.c \
-    gensvg.c gentextyl.c gentikz.h gentikz.c gentk.c gentpic.c picfonts.h \
+    gensvg.c gensvg.h gentextyl.c gentikz.h gentikz.c gentk.c gentpic.c genvdx.c picfonts.h \
     picpsfonts.h psencode.h psencode.c psfonts.h psfonts.c psimage.h \
     psprolog.h readeps.c readgif.c readjpg.c readpcx.c readpics.h readpics.c \
     readppm.c readtif.c readxbm.c texfonts.h texfonts.c setfigfont.h \

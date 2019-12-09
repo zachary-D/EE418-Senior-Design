@@ -83,7 +83,7 @@ bool support_i18n = false;
 char	gif_transparent[20]="\0"; /* GIF transp color hex name (e.g. #ff00dd) */
 char	papersize[20];		/* paper size */
 char	boundingbox[64];	/* boundingbox */
-char	lang[40];		/* selected output language */
+char	lang[42];		/* selected output language */      /*new edit*/
 RGB	background;		/* background (if specified by -g) */
 float	grid_minor_spacing = 0.0; /* grid minor spacing (if any) */
 float	grid_major_spacing = 0.0; /* grid major spacing (if any) */
@@ -293,7 +293,7 @@ get_args(int argc, char *argv[])
 		}
 		break;	/* error message given in genpstricks.c */
 
-	    case 'L':			/* set output language */
+	    case 'L':			/* set output language */ /* debug Dec6 */
 		/* save language for gen{gif,jpg,pcx,xbm,xpm,ppm,tif} */
 		strncpy(lang,optarg,sizeof(lang)-1);
 		for (i = 0; *drivers[i].name; ++i)
@@ -532,7 +532,8 @@ help_msg(void)
 			!strcmp(lang, "pstricks") || !strcmp(lang, "ptk") ||
 			!strcmp(lang, "shape") || !strcmp(lang, "svg") ||
 			!strcmp(lang, "textyl") || !strcmp(lang, "tikz") ||
-			!strcmp(lang, "tk") || !strcmp(lang, "tpic")) {
+			!strcmp(lang, "tk") || !strcmp(lang, "tpic") ||
+			!strcmp(lang, "vdx")) {     /* new edit */
 		puts(
 "\n--------------------------------------------------------------------------------\n"
 "Vector formats:");
