@@ -121,7 +121,7 @@ char	*lang_items[] = {
 	"ptk",
 	"shape",
 	"svg",
-	"vdx",  /* new edit */
+	"vdx",  /* Jeremiah G. */
 /* bitmap formats start here */
 	"gif", "jpeg", "pcx", "png", "ppm", "sld", "tiff", "xbm",
 #ifdef USE_XPM
@@ -161,7 +161,7 @@ char	*lang_texts[] = {
 	"PTk (Perl/Tk toolkit)            ",
 	"SHAPE (ShapePar definition )     ",
 	"SVG (Scalable Vector Graphics)   ",
-	"VDX (Visio Drawing XML)          ", /* new edit */
+	"VDX (Visio Drawing XML)          ", /* Jeremiah G. */
 
 	/*** bitmap formats follow ***/
 	/* if you move GIF, change FIRST_BITMAP_LANG in mode.h */
