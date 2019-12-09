@@ -61,7 +61,7 @@ texfile(FILE *tx, char *in)
 	  case textyl:
 	  case tiff:
 	  case tk:
-      case vdx:  /* new edit */
+      case vdx:  /* Jeremiah G. */
 	  case xbm:
 	  case xpm:
 		fprintf(tx, "\\typeout{TransFig: figures in %s.}\n", lname[(int)to]);
