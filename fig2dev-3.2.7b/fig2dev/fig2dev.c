@@ -83,7 +83,7 @@ bool support_i18n = false;
 char	gif_transparent[20]="\0"; /* GIF transp color hex name (e.g. #ff00dd) */
 char	papersize[20];		/* paper size */
 char	boundingbox[64];	/* boundingbox */
-char	lang[42];		/* selected output language */      /*new edit*/
+char	lang[41];		/* selected output language */      /*Jeremiah G.*/
 RGB	background;		/* background (if specified by -g) */
 float	grid_minor_spacing = 0.0; /* grid minor spacing (if any) */
 float	grid_major_spacing = 0.0; /* grid major spacing (if any) */
@@ -533,7 +533,7 @@ help_msg(void)
 			!strcmp(lang, "shape") || !strcmp(lang, "svg") ||
 			!strcmp(lang, "textyl") || !strcmp(lang, "tikz") ||
 			!strcmp(lang, "tk") || !strcmp(lang, "tpic") ||
-			!strcmp(lang, "vdx")) {     /* new edit */
+			!strcmp(lang, "vdx")) {     /* Jeremiah G. */
 		puts(
 "\n--------------------------------------------------------------------------------\n"
 "Vector formats:");
