@@ -52,14 +52,21 @@ void send_to_back_selected(void)
 
 static void send_back(F_line *obj, int type, int x, int y, F_point *p, F_point *q, int pnum)
 {
-    if (obj->depth == 999) {
-        put_msg("999 depth");
+    if (find_largest_depth(&objects) == 999) {
+        put_msg("There was already an object at 999 depth. Change one manually if they overlap.");
+
+        remove_depth(type, obj->depth);
+        obj->depth = 999;
+        add_depth(type, obj->depth);
+    }
+    else {
+        remove_depth(type, obj->depth); //manages the depth manager (must be before setting depth)
+        obj->depth = find_largest_depth(&objects)+1; //uses &objects as a compound to use pre-existing function
+        add_depth(type, obj->depth); //must be after setting depth
+
+        put_msg("Successfully sent back.");
     }
 
-    remove_depth(type, obj->depth); //manages the depth manager
-    obj->depth = 998;
-	add_depth(type, obj->depth);
-    redisplay_canvas();
-
+    redisplay_canvas(); //redraw to see changes
 }
 
