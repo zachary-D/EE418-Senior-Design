@@ -64,6 +64,8 @@
 #include "w_setup.h"
 #include "w_util.h"
 #include "d_spline.h"
+//Done By Cole//
+#include "e_send_to_back.h"
 
 /* EXPORTS */
 
@@ -116,6 +118,8 @@ static void	stub_anglemeas_selected(void);
 static void	stub_lenmeas_selected(void);
 static void	stub_areameas_selected(void);
 static void	stub_tangent_selected(void);
+//Done By Cole//
+static void	stub_send_to_back_selected(void);
 
 /**************	    local variables and routines   **************/
 
@@ -270,6 +274,12 @@ mode_sw_info mode_switches[] = {
     {&areameas_ic, F_AREAMEAS, areameas_selected, M_AREAMEAS_OBJECT,
        I_MIN2,
        "Measure AREA of polygons, arcs and ellipses   (Ctrl-m)", False},
+//Done By Cole//
+    {&send_to_back_ic, F_SEND_TO_BACK, send_to_back_selected, M_OBJECT,
+       I_NONE, //@TODO 
+       "Send the selected object to the back", False},
+
+
 
     /* This must be last for create_mode_panel() (in w_canvas.c) */
     { NULL, 0 }
@@ -348,6 +358,8 @@ static XtActionsRec mode_actions[] =
     {"ModeAnglemeas", (XtActionProc) stub_anglemeas_selected},
     {"ModeLenmeas", (XtActionProc) stub_lenmeas_selected},
     {"ModeAreameas", (XtActionProc) stub_areameas_selected},
+   //Need @TODO Something Here Cole//
+    {"ModeSendToBack", (XtActionProc) stub_send_to_back_selected},
 };
 
 static String   mode_translations =
@@ -711,6 +723,8 @@ void turn_off_current(void)
     }
 }
 
+
+
 void change_mode(icon_struct *icon)
 {
     int i;
@@ -966,5 +980,9 @@ stub_areameas_selected(void)
 	change_mode(&areameas_ic);
 }
 
-
-
+//Done By Cole//
+static void
+stub_send_to_back_selected(void)
+{
+	change_mode(&send_to_back_ic);
+}

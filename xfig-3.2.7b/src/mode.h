@@ -78,6 +78,8 @@
 #define		F_AREAMEAS		60
 #define		F_PASTE			61
 #define		F_CHOP			62
+//Done By Cole//
+#define         F_SEND_TO_BACK          63
 
 extern int	cur_mode;
 

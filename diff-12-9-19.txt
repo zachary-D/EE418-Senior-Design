@@ -1,0 +1,88 @@
+diff --git a/xfig-3.2.7b/src/e_send_to_back.c b/xfig-3.2.7b/src/e_send_to_back.c
+index 49d6f40..6ba4f8b 100644
+--- a/xfig-3.2.7b/src/e_send_to_back.c
++++ b/xfig-3.2.7b/src/e_send_to_back.c
+@@ -1,33 +1,36 @@
+ #include "fig.h"
+-#include "resources.h"
+-#include "mode.h"
+-#include "object.h"
+ #include "paintop.h"
++
++
+ #include "e_scale.h"
+ #include "u_draw.h"
+-#include "u_search.h"
+ #include "u_create.h"
+ #include "u_elastic.h"
+-#include "u_list.h"
+ #include "u_markers.h"
+ #include "u_undo.h"
++#include "u_geom.h"
++
++
++#include "object.h"
++#include "w_mousefun.h"
+ #include "w_canvas.h"
++#include "u_search.h"
++#include "w_cursor.h"
++#include "resources.h"
+ #include "w_modepanel.h"
+-#include "w_mousefun.h"
++#include "mode.h"
++#include "w_util.h"
+ #include "w_msgpanel.h"
+-
+-#include "f_util.h"
+-#include "u_geom.h"
++#include "u_list.h"
+ #include "u_redraw.h"
+-#include "w_cursor.h"
+-#include "w_util.h"
++#include "f_util.h"
+ 
+ static void send_back(F_line *obj, int type, int x, int y, F_point *p, F_point *q, int pnum);
+ 
+ 
+ void send_to_back_selected(void)
+ {
+-    //FROM e_movept.c (same pointer)
++    //FROM e_movept.c (same cursor)
+      set_mousefun("send back", "", "", LOC_OBJ, LOC_OBJ, LOC_OBJ);
+      canvas_kbd_proc = null_proc;
+      canvas_locmove_proc = null_proc;
+@@ -52,21 +55,21 @@ void send_to_back_selected(void)
+ 
+ static void send_back(F_line *obj, int type, int x, int y, F_point *p, F_point *q, int pnum)
+ {
+-    if (find_largest_depth(&objects) == 999) {
+-        put_msg("There was already an object at 999 depth. Change one manually if they overlap.");
++//     /*if (find_largest_depth(&objects) == MAX_DEPTH) {
++//         put_msg("There was already an object at 999 depth. Change one manually if they overlap.");
+ 
+-        remove_depth(type, obj->depth);
+-        obj->depth = 999;
+-        add_depth(type, obj->depth);
+-    }
+-    else {
+-        remove_depth(type, obj->depth); //manages the depth manager (must be before setting depth)
+-        obj->depth = find_largest_depth(&objects)+1; //uses &objects as a compound to use pre-existing function
+-        add_depth(type, obj->depth); //must be after setting depth
++//         remove_depth(type, obj->depth);
++//         obj->depth = MAX_DEPTH;
++//         add_depth(type, obj->depth);
++//     }
++//     else {*/
++//         remove_depth(type, obj->depth); //manages the depth manager (must be before setting depth)
++//         obj->depth = find_largest_depth(&objects)+1; //uses &objects as a compound to use pre-existing function
++//         add_depth(type, obj->depth); //must be after setting depth
+ 
+-        put_msg("Successfully sent back.");
+-    }
++//         put_msg("Successfully sent back.");
++//    // }
+ 
+-    redisplay_canvas(); //redraw to see changes
++//     redisplay_canvas(); //redraw to see changes
+ }
+ 
