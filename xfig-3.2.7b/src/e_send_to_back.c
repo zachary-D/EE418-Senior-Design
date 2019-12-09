@@ -47,6 +47,7 @@ void send_to_back_selected(void)
      set_cursor(pick9_cursor);
      force_anglegeom();
      reset_action_on();
+     
 }
 
 static void send_back(F_line *obj, int type, int x, int y, F_point *p, F_point *q, int pnum)
@@ -58,5 +59,7 @@ static void send_back(F_line *obj, int type, int x, int y, F_point *p, F_point *
     remove_depth(type, obj->depth); //manages the depth manager
     obj->depth = 998;
 	add_depth(type, obj->depth);
+    redisplay_canvas();
+
 }
 
