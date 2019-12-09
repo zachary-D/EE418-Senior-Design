@@ -2,28 +2,21 @@
 #include "resources.h"
 #include "mode.h"
 #include "object.h"
-#include "paintop.h"
-#include "e_scale.h"
-#include "u_draw.h"
 #include "u_search.h"
-#include "u_create.h"
-#include "u_elastic.h"
 #include "u_list.h"
-#include "u_markers.h"
 #include "u_undo.h"
 #include "w_canvas.h"
 #include "w_modepanel.h"
 #include "w_mousefun.h"
 #include "w_msgpanel.h"
-
 #include "f_util.h"
 #include "u_geom.h"
 #include "u_redraw.h"
 #include "w_cursor.h"
-#include "w_util.h"
 
 static void send_back(F_line *obj, int type, int x, int y, F_point *p, F_point *q, int pnum);
 
+<<<<<<< HEAD
 //desired_depth = max_depth()->depth+1;
 
 void send_to_back_selected(void)
@@ -81,15 +74,35 @@ void set_depth(selected_object, desired_depth)
      force_anglegeom();
      reset_action_on();
 */
+=======
+void send_to_back_selected(void)
+{
+    set_mousefun("send back", "", "", LOC_OBJ, LOC_OBJ, LOC_OBJ); //mouse button choice text
+    canvas_leftbut_proc = object_search_left; //sets action of left click
+    init_searchproc_left(send_back); //sends to instance
+    set_cursor(pick9_cursor); //"finger" pointer
+>>>>>>> a355a325f6845fc38b6f9912b342c2b0c06afaba
 }
 
 static void send_back(F_line *obj, int type, int x, int y, F_point *p, F_point *q, int pnum)
 {
-    if (obj->depth == 999) {
-        put_msg("999 depth");
+    //uses &objects as a compound to use pre-existing function
+    if (find_largest_depth(&objects) == MAX_DEPTH) {
+        //set the depth to max, update depth manager
+        remove_depth(type, obj->depth);
+        obj->depth = MAX_DEPTH;
+        add_depth(type, obj->depth);
+        //warning message
+        put_msg("There was already an object at 999 depth. Change one manually if they overlap.");
+    }
+    else {
+        //set the depth to largest+1, update depth manager
+        remove_depth(type, obj->depth);
+        obj->depth = find_largest_depth(&objects)+1;
+        add_depth(type, obj->depth); //must be after setting depth
+        //success message
+        put_msg("Successfully sent back.");
     }
 
-    remove_depth(type, obj->depth); //manages the depth manager
-    obj->depth = 998;
-	add_depth(type, obj->depth);
+    redisplay_canvas(); //redraw to see changes
 }
